@@ -12,7 +12,7 @@ var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}
 });
 // Creates map for layers to be placed on. 
 var myMap = L.map("mapid", {
-  center: [37.7749, -122.4194],
+  center: [41.9028, 12.4194],
   zoom: 5
   // layers: [darkmap, earthquakes]
 });
