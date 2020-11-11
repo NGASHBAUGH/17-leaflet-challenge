@@ -25,30 +25,46 @@ d3.json(qUrl , function(data) {
 
 
 function create(earthquakeData) {
-    var len = earthquakeData.length
-    var heatUP = [];
-    console.log("This")
-    console.log(earthquakeData[1])
-
+  var maximum = [];
+  for(var i = 0 ; i < earthquakeData.length ; i ++) {
+    maximum.push(earthquakeData[i].geometry.coordinates[2])
+  }
+  console.log(earthquakeData)
+    var depth = earthquakeData[1].geometry.coordinates[2]
+    console.log(Math.max(...maximum))
+    console.log(Math.min(...maximum))
     function eachFeature (feature , layer ){
-        layer.bindPopup("<h3>" + feature.propertes.place + 
-            "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
+        layer.bindPopup("<h3>" + feature.properties.place + 
+            "</h3><hr><p>" + new Date(feature.properties.time) +"<br> Magnatude: " 
+            + feature.properties.mag + "<br>Depth of the Earthquake: " + feature.geometry.coordinates[2] +"</p>");
     };
     function markerz (feature){
        return {
-         radius : 25, 
-         fillColor : 'brown'
+         radius : feature.properties.mag *4, 
+         fillColor : getColor(feature.geometry.coordinates[2]),
+         weight: 2, 
+         opacity: 1,
+         color : 'black', 
+         dashArray : "3",
+         fillOpacity : 0.7
        }
     }
+    function pTL (feature , latlng) {
+      return L.circleMarker(latlng)
+    }; 
+
     L.geoJSON(earthquakeData , {
-        eachFeature : eachFeature,
-        pointToLayer: function(feature, latlng){
-          return L.circleMarker(latlng)
-        },
-        style: markerz
+        onEachFeature : eachFeature,
+        pointToLayer: pTL,
+        style: markerz,
     }).addTo(myMap)
 
-    // generateMap(earthquakes);
+    function getColor (d) {
+      var mapScale = chroma.scale(['red', 'green']).domain([Math.min(...maximum), Math.max(...maximum)]  )
+      return mapScale(d)
+    } 
+    
+    console.log((Math.max(...maximum)-(0*(Math.max(...maximum)/5))))
 };
 
 
