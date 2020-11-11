@@ -60,11 +60,37 @@ function create(earthquakeData) {
     }).addTo(myMap)
 
     function getColor (d) {
-      var mapScale = chroma.scale(['red', 'green']).domain([Math.min(...maximum), Math.max(...maximum)]  )
+      var mapScale = chroma.scale(['lightgreen', 'red']).domain([Math.min(...maximum), Math.max(...maximum)]  )
       return mapScale(d)
     } 
     
-    console.log((Math.max(...maximum)-(0*(Math.max(...maximum)/5))))
+    var legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = 
+        [Math.round(Math.min(...maximum),2), 
+          Math.round(Math.max(...maximum)-(5*(Math.max(...maximum)/5)),2), 
+          Math.round(Math.max(...maximum)-(4*(Math.max(...maximum)/5)),2), 
+          Math.round(Math.max(...maximum)-(3*(Math.max(...maximum)/5)),2), 
+          Math.round(Math.max(...maximum)-(2*(Math.max(...maximum)/5)),2), 
+          Math.round(Math.max(...maximum)-(1*(Math.max(...maximum)/5)),2), 
+          Math.round(Math.max(...maximum),2)],
+        labels = [];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+
+    return div;
+};
+
+legend.addTo(myMap);
+    // console.log((Math.max(...maximum)-(0*(Math.max(...maximum)/5))))
 };
 
 
