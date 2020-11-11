@@ -93,14 +93,4 @@ function create(earthquakeData) {
 // Add color scale legend 
 legend.addTo(myMap);
 
-        var info = L.control(); 
-        info.onAdd = function(map) {
-          this._div = L.DomUtil.create('div', 'info');
-          this.update();
-          return this._div;
-        }
-        info.update = function(props) {
-          this._div.innerHTML = '<h4>Magnatudes and Depths Density</h4>' 
-        }
-        info.addTo(myMap)
 };
