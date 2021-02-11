@@ -3,4 +3,7 @@
 On repository I created a leaflet map showcasing earthquake locations, depth and magnitude. If you go to the following link you can see the presentation of the map and look at the leaflet map. Below is a photo taken from my 
 
 
-![1-Logo](Images/my_images/capture.png)
+![1-Logo](Images/my_images/Capture.png)
+
+
+
